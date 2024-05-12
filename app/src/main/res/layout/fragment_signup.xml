@@ -1,0 +1,71 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.Signup"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="20dp">
+
+    <ImageView
+        android:layout_width="200sp"
+        android:layout_height="200sp"
+        android:src="@drawable/images"
+        android:layout_gravity="center"
+        android:paddingBottom="12dp"/>
+
+    <EditText
+        android:id="@+id/signupEditTextEmail"
+        android:layout_width="match_parent"
+        android:paddingLeft="12dp"
+        android:layout_height="40dp"
+        android:drawableLeft="@drawable/baseline_email_24"
+        android:background="@drawable/edittext_backgroud"
+        android:layout_marginTop="20dp"
+        android:hint="Emial"
+        android:textSize="15sp"/>
+
+    <EditText
+        android:paddingLeft="12dp"
+
+        android:id="@+id/signupEditTextpass"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:drawableLeft="@drawable/baseline_lock_24"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edittext_backgroud"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:textSize="15sp"
+        />
+
+    <EditText
+        android:id="@+id/signupEditTextConfirmpass"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:paddingLeft="12dp"
+        android:drawableLeft="@drawable/baseline_password_24"
+        android:layout_marginTop="10dp"
+        android:inputType="textPassword"
+        android:background="@drawable/edittext_backgroud"
+        android:hint="Confirm Password"
+        android:textSize="15sp"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/SignupButton"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/background_button"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="SignUp"
+            android:gravity="center"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

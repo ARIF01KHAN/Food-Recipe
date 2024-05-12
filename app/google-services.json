@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "184473038170",
+    "project_id": "food-recipe-fb2ee",
+    "storage_bucket": "food-recipe-fb2ee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:184473038170:android:737f87347453f564b6d763",
+        "android_client_info": {
+          "package_name": "com.example.foodrecipe"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhIQJX4zY39kAKEsLyVbn6pWNOXPHH-Co"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

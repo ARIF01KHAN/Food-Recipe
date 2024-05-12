@@ -1,0 +1,110 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragments.Home"
+    android:padding="@dimen/_10sdp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/LinearLayoutHome"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Home"
+            android:textSize="@dimen/_26sdp"
+            android:textColor="@color/red"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="@dimen/_32sdp"
+            android:src="@drawable/baseline_search_24"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="What would you like to cook"
+        app:layout_constraintTop_toBottomOf="@+id/LinearLayoutHome"
+        android:id="@+id/TextviewHome1"
+        app:layout_constraintStart_toStartOf="@+id/LinearLayoutHome"
+        android:textSize="@dimen/_15sdp"
+        android:textStyle="bold"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewforImage"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_200sdp"
+        app:layout_constraintTop_toBottomOf="@+id/TextviewHome1"
+        app:layout_constraintStart_toStartOf="@+id/TextviewHome1">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/LiketoeatImage"
+            android:scaleType="centerCrop"/>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_15sdp"
+        android:id="@+id/overPopularMeal"
+        android:text="Over Popular Meals"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/cardViewforImage"
+        app:layout_constraintStart_toStartOf="@+id/cardViewforImage"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RecyclerOverPopularMeal"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/overPopularMeal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_15sdp"
+        android:id="@+id/TextViewCategory"
+        app:layout_constraintTop_toBottomOf="@id/RecyclerOverPopularMeal"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Category"
+        android:textStyle="bold"/>
+    
+    <androidx.cardview.widget.CardView
+        android:id="@+id/category_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/TextViewCategory"
+        >
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none" />
+    </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
