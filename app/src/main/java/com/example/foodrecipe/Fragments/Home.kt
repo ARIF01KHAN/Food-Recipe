@@ -8,27 +8,36 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.BaseAdapter
 import android.widget.ImageView
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Recycler
 import com.bumptech.glide.Glide
+import com.example.foodrecipe.Adapters.AreaWiseMealAdapter
+import com.example.foodrecipe.Adapters.CategoryAdapter
+import com.example.foodrecipe.CategoryActivity
+import com.example.foodrecipe.DataClass.Category
 import com.example.foodrecipe.DataClass.Meal
-import com.example.foodrecipe.DataClass.MealList
+import com.example.foodrecipe.DataClass.MealX
+
 import com.example.foodrecipe.LikeToEatActivity
-import com.example.foodrecipe.MealApi
 import com.example.foodrecipe.ModelView.HomeViewModel
 import com.example.foodrecipe.R
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+
 
 class Home : Fragment() {
 
     private lateinit var image: ImageView
     private lateinit var Homemvvm: HomeViewModel
     private lateinit var RandomMeal: Meal
-
+    private lateinit var Arraylist: ArrayList<Category>
+    private lateinit var Recycler: RecyclerView
+    private lateinit var adapter1: AreaWiseMealAdapter
+    private lateinit var Recycler1: RecyclerView
+    private lateinit var adapter2: CategoryAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Homemvvm = ViewModelProvider(this)[HomeViewModel::class.java]
@@ -41,7 +50,16 @@ class Home : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container ,false)
 
+        Recycler= view.findViewById(R.id.RecyclerOverPopularMeal)
+        Recycler.layoutManager =LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL,false)
         image = view.findViewById(R.id.LiketoeatImage)
+        adapter1 = AreaWiseMealAdapter()
+
+        Recycler1= view.findViewById(R.id.recycler_view)
+        Recycler1.layoutManager = GridLayoutManager(requireContext(),3, GridLayoutManager.VERTICAL,false)
+        adapter2 = CategoryAdapter()
+
+
 
         return view
     }
@@ -51,13 +69,58 @@ class Home : Fragment() {
         Homemvvm.getRandomMeal()
         ObserveRandomMeal()
 
+        Homemvvm.getApiData()
+        ObserveAreaWiseMeal()
+
+        Homemvvm.getAllCategoryList()
+        ObserveCategoryList()
+
+
         image.setOnClickListener {
             val intent = Intent(requireContext(), LikeToEatActivity::class.java)
             intent.putExtra("MealId", RandomMeal.idMeal)
             intent.putExtra("MeaLName", RandomMeal.strMeal)
             intent.putExtra("MealImage", RandomMeal.strMealThumb)
             startActivity(intent)
+
         }
+
+        observeClickonCategory()
+    }
+
+    private fun observeClickonCategory() {
+            adapter2.setOnClickListner(object : CategoryAdapter.OnItemClick{
+                override fun ItemClick(position: Int) {
+                    val intent= Intent(requireContext(),CategoryActivity::class.java)
+                    intent.putExtra("CategoryName",Arraylist[position].strCategory)
+                    startActivity(intent)
+                }
+
+            })
+    }
+
+    private fun ObserveCategoryList() {
+        Homemvvm.observeCategoryLiveData().observe(viewLifecycleOwner
+        ) { Category ->
+            Arraylist = Category as ArrayList<Category>
+            adapter2.setArrayList(Category as ArrayList<Category>)
+            Recycler1.adapter = adapter2
+
+        }
+
+
+
+
+    }
+
+    private fun ObserveAreaWiseMeal() {
+        Homemvvm.ObserveAreaWiseMealLiveData().observe(viewLifecycleOwner,
+         {mealList->
+             adapter1.setValue(mealList as ArrayList<MealX>)
+             Recycler.adapter = adapter1
+
+         })
+
     }
 
     private fun ObserveRandomMeal() {
