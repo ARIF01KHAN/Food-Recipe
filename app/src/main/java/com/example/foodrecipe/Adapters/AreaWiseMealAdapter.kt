@@ -12,9 +12,17 @@ import com.example.foodrecipe.R
 
 class AreaWiseMealAdapter(): RecyclerView.Adapter<AreaWiseMealAdapter.MyViewHolder>() {
     private lateinit var Arraylist: ArrayList<MealX>
+    private lateinit var mlistner:OnClickResponse
+    interface OnClickResponse{
+        fun OnClicked(position: Int)
+    }
+
+    fun Clicked(listner:OnClickResponse){
+        this.mlistner=listner
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.popular_meals, parent, false)
-        return MyViewHolder(itemView)
+        return MyViewHolder(itemView,mlistner)
     }
 
     fun setValue(NewArray: ArrayList<MealX>){
@@ -32,9 +40,13 @@ class AreaWiseMealAdapter(): RecyclerView.Adapter<AreaWiseMealAdapter.MyViewHold
             .into(holder.image)
     }
 
-    class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    class MyViewHolder(itemView: View,listner: OnClickResponse): RecyclerView.ViewHolder(itemView) {
 
         val image: ImageView = itemView.findViewById(R.id.PopularMeal)
-
+        init{
+            itemView.setOnClickListener{
+                listner.OnClicked(adapterPosition)
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.foodrecipe
 import com.example.foodrecipe.DataClass.CategoryMealList
+import com.example.foodrecipe.DataClass.CategoryWiseData
 import com.example.foodrecipe.DataClass.MealLisWithArea
 import com.example.foodrecipe.DataClass.MealList
 import retrofit2.Call
@@ -11,11 +12,14 @@ interface MealApi {
     fun getRandomMeal(): Call<MealList>
 
     @GET("lookup.php?")
-    fun getMealDetail(@Query("i")id: String): Call<MealList>
+    fun getMealDetail(@Query("i") id: String): Call<MealList>
 
     @GET("filter.php?")
-    fun getPopularItem(@Query("a")AreaName:String): Call<MealLisWithArea>
+    fun getPopularItem(@Query("a") areaName:String): Call<MealLisWithArea>
 
     @GET("categories.php")
     fun getCatagoryList(): Call<CategoryMealList>
+
+    @GET("filter.php")
+    fun getCategoryWiseMealList(@Query("c") categoryName: String): Call<CategoryWiseData>
 }

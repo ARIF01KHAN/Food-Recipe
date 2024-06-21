@@ -9,15 +9,19 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.example.foodrecipe.DataClass.Meal
+import com.example.foodrecipe.DataClass.MealX
 import com.example.foodrecipe.ModelView.LikeToEatViewModel
-import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class LikeToEatActivity : AppCompatActivity() {
 
@@ -34,6 +38,8 @@ class LikeToEatActivity : AppCompatActivity() {
     private lateinit var FavButton: ConstraintLayout
     private lateinit var YtImage: ImageView
     private lateinit var YtURI: String
+    private lateinit var floataction : ConstraintLayout
+    private lateinit var databaseReference: DatabaseReference
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,20 +54,28 @@ class LikeToEatActivity : AppCompatActivity() {
         ProgressBar = findViewById(R.id.Progressbar)
         FavButton =findViewById(R.id.fav_constraint_button)
         YtImage = findViewById(R.id.img_youtube)
+        databaseReference= FirebaseDatabase.getInstance().getReference("UserID")
+        floataction = findViewById(R.id.fav_constraint_button)
         loadingcase()
-        mealMvvm = ViewModelProviders.of(this)[LikeToEatViewModel::class.java]
-
+        mealMvvm = ViewModelProvider(this)[LikeToEatViewModel::class.java]
+        val email = FirebaseAuth.getInstance().currentUser?.email.toString()
         val intent = getIntent()
         Mealid = intent.getStringExtra("MealId").toString()
         MealName = intent.getStringExtra("MeaLName").toString()
         MealImage = intent.getStringExtra("MealImage").toString()
 
         mealMvvm.getMealDetails(Mealid)
+        val meal_id = MealX(Mealid,MealName,MealImage)
+        floataction.setOnClickListener{
+                databaseReference.child(email.removeSuffix("@gmail.com")).child(Mealid).setValue(meal_id)
+            Toast.makeText(this,"Saved",Toast.LENGTH_SHORT).show()
+        }
 
         YtImage.setOnClickListener{
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(YtURI))
             startActivity(intent)
         }
+
 
         ObserveMealDetailsLiveData()
 

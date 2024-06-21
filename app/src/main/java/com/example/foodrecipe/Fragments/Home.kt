@@ -38,6 +38,8 @@ class Home : Fragment() {
     private lateinit var adapter1: AreaWiseMealAdapter
     private lateinit var Recycler1: RecyclerView
     private lateinit var adapter2: CategoryAdapter
+    private lateinit var AreawiseArray : ArrayList<MealX>
+    private lateinit var image1: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Homemvvm = ViewModelProvider(this)[HomeViewModel::class.java]
@@ -58,6 +60,7 @@ class Home : Fragment() {
         Recycler1= view.findViewById(R.id.recycler_view)
         Recycler1.layoutManager = GridLayoutManager(requireContext(),3, GridLayoutManager.VERTICAL,false)
         adapter2 = CategoryAdapter()
+
 
 
 
@@ -86,6 +89,22 @@ class Home : Fragment() {
         }
 
         observeClickonCategory()
+        observeClickonAreaWise()
+    }
+
+
+    private fun observeClickonAreaWise() {
+        adapter1.Clicked(object : AreaWiseMealAdapter.OnClickResponse{
+            override fun OnClicked(position: Int) {
+                val currentitem =AreawiseArray[position]
+                val intent = Intent(requireContext(),LikeToEatActivity::class.java)
+                intent.putExtra("MealId",currentitem.idMeal)
+                intent.putExtra("MeaLName",currentitem.strMeal)
+                intent.putExtra("MealImage",currentitem.strMealThumb)
+                startActivity(intent)
+            }
+
+        })
     }
 
     private fun observeClickonCategory() {
@@ -114,12 +133,12 @@ class Home : Fragment() {
     }
 
     private fun ObserveAreaWiseMeal() {
-        Homemvvm.ObserveAreaWiseMealLiveData().observe(viewLifecycleOwner,
-         {mealList->
-             adapter1.setValue(mealList as ArrayList<MealX>)
-             Recycler.adapter = adapter1
-
-         })
+        Homemvvm.ObserveAreaWiseMealLiveData().observe(viewLifecycleOwner
+        ) { mealList ->
+            adapter1.setValue(mealList as ArrayList<MealX>)
+            Recycler.adapter = adapter1
+            AreawiseArray = mealList as ArrayList<MealX>
+        }
 
     }
 

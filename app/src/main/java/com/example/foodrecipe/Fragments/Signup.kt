@@ -17,6 +17,8 @@ import com.example.foodrecipe.MainActivity2
 import com.example.foodrecipe.R
 import com.google.android.play.core.integrity.g
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 @Suppress("UNREACHABLE_CODE")
 class Signup : Fragment() {
@@ -26,20 +28,22 @@ class Signup : Fragment() {
     private lateinit var passaword: EditText
     private lateinit var confirmpass: EditText
     private lateinit var button: ConstraintLayout
+    private lateinit var databaseReference: DatabaseReference
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
         val view =inflater.inflate(R.layout.fragment_signup, container, false)
-        val firebaseAuth =FirebaseAuth.getInstance()
+        firebaseAuth =FirebaseAuth.getInstance()
         passaword = view.findViewById(R.id.signupEditTextpass)
         confirmpass = view.findViewById(R.id.signupEditTextConfirmpass)
         email = view.findViewById(R.id.signupEditTextEmail)
         button =view.findViewById(R.id.SignupButton)
+        databaseReference = FirebaseDatabase.getInstance().getReference("UserID")
 
-        val fragment: Fragment = SignIn()
         button.setOnClickListener {
-            if (firebaseAuth.currentUser != null) {
+            Log.d("MainActiviyt","working")
+            if (firebaseAuth.currentUser == null) {
                 if (email.text.toString().isNotEmpty()
                     && passaword.text.toString().isNotEmpty()
                     && confirmpass.text.toString().isNotEmpty()
