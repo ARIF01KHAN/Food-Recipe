@@ -20,6 +20,7 @@ import com.example.foodrecipe.LikeToEatActivity
 import com.example.foodrecipe.ModelView.CategoryViewModel
 import com.example.foodrecipe.ModelView.SwipeGesture
 import com.example.foodrecipe.R
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -92,19 +93,32 @@ class Favourite : Fragment() {
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
                         val position = viewHolder.adapterPosition
-                        val itemidval = Adddata[position].idMeal
-                        databaseReference.child(itemidval.toString()).removeValue()
+                        val itemidval = Adddata[position]
+                        databaseReference.child(itemidval.idMeal.toString()).removeValue()
                             .addOnCompleteListener {
+                                Snackbar.make(recycler,"Deleted",Snackbar.LENGTH_LONG)
+                                    .setAction("Undo",object : View.OnClickListener{
+                                        override fun onClick(p0: View?) {
+                                            databaseReference.child(itemidval.idMeal.toString())
+                                                .setValue(itemidval)
+                                        }
+                                    }).show()
                                 categoryAdapter.notifyDataSetChanged()
-
                             }
                     }
 
                     ItemTouchHelper.RIGHT -> {
                         val position = viewHolder.adapterPosition
-                        val itemidval = Adddata[position].idMeal
-                        databaseReference.child(itemidval.toString()).removeValue()
+                        val itemidval = Adddata[position]
+                        databaseReference.child(itemidval.idMeal.toString()).removeValue()
                             .addOnCompleteListener {
+                                Snackbar.make(recycler,"Deleted",Snackbar.LENGTH_LONG)
+                                    .setAction("Undo",object : View.OnClickListener{
+                                        override fun onClick(p0: View?) {
+                                            databaseReference.child(itemidval.idMeal.toString())
+                                                .setValue(itemidval)
+                                        }
+                                    }).show()
                                 categoryAdapter.notifyDataSetChanged()
                             }
                     }

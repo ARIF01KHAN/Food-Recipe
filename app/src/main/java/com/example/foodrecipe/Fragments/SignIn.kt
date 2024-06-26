@@ -38,6 +38,7 @@ class SignIn : Fragment() {
                     if(it.isSuccessful){
                         val intent = Intent(requireContext(), MainActivity2::class.java)
                         startActivity(intent)
+                        activity?.finish()
                     }
                     else{
                         Toast.makeText(requireContext(), it.exception.toString(), Toast.LENGTH_SHORT).show()
@@ -49,5 +50,14 @@ class SignIn : Fragment() {
             }
         }
         return view
+    }
+
+    override fun onStart() {
+        if(firebaseAuth.currentUser!=null){
+            val intent = Intent(requireContext(), MainActivity2::class.java)
+            startActivity(intent)
+            activity?.finish()
+        }
+        super.onStart()
     }
 }

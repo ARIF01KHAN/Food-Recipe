@@ -1,6 +1,7 @@
 package com.example.foodrecipe
 import com.example.foodrecipe.DataClass.CategoryMealList
 import com.example.foodrecipe.DataClass.CategoryWiseData
+import com.example.foodrecipe.DataClass.Meal
 import com.example.foodrecipe.DataClass.MealLisWithArea
 import com.example.foodrecipe.DataClass.MealList
 import retrofit2.Call
@@ -22,4 +23,7 @@ interface MealApi {
 
     @GET("filter.php")
     fun getCategoryWiseMealList(@Query("c") categoryName: String): Call<CategoryWiseData>
+
+    @GET("search.php?")
+    fun getsearchedmeal(@Query("s") MealName: String): Call<MealList>
 }

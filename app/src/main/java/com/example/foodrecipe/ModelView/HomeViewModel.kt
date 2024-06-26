@@ -25,6 +25,11 @@ class HomeViewModel():ViewModel() {
     private var LiveMealData = MutableLiveData<Meal>()
     private var LivePopularMeal= MutableLiveData<List<MealX>>()
     private var LiveCategoryList= MutableLiveData<List<Category>>()
+    private var LiveSearchedData = MutableLiveData<List<Meal> >()
+
+    init {
+        getRandomMeal()
+    }
     fun getRandomMeal() {
         val RetrofitBuilder = Retrofit.Builder()
             .baseUrl("https://www.themealdb.com/api/json/v1/1/")
@@ -95,8 +100,33 @@ class HomeViewModel():ViewModel() {
             })
     }
 
+    fun getSearchedMeal( MealName: String){
+        val retrobuilder = Retrofit.Builder()
+            .baseUrl("https://www.themealdb.com/api/json/v1/1/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(MealApi::class.java)
+        retrobuilder.getsearchedmeal(MealName).enqueue(object : Callback<MealList>{
+            override fun onResponse(call: Call<MealList>, response: Response<MealList>) {
+                if(response.body()!=null){
+                    LiveSearchedData.value = response.body()!!.meals
+                }
+            }
+
+            override fun onFailure(call: Call<MealList>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+
+        })
+    }
+
     fun observelivedata():LiveData<Meal>{
         return LiveMealData
+    }
+
+    fun SearchedbyMealName(): LiveData<List<Meal>>{
+        return LiveSearchedData
     }
 
     fun ObserveAreaWiseMealLiveData():LiveData<List<MealX>>{
